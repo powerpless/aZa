@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm build:*)",
+      "Bash(pnpm install:*)",
+      "Bash(dir \"C:\\\\Users\\\\User\\\\Downloads\\\\b_QnZIk62O2At\\\\node_modules\")",
+      "mcp__plugin_oh-my-claudecode_t__state_list_active",
+      "mcp__plugin_oh-my-claudecode_t__state_write",
+      "Bash(find:*)"
+    ]
+  }
+}
