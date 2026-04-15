@@ -1,15 +1,13 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin", "cyrillic"], weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"] });
 
 export const metadata: Metadata = {
-  title: 'ПБиОТ — Витрина активности',
-  description: 'Единая витрина активности по всем модулям промышленной безопасности и охраны труда',
-  generator: 'v0.app',
+  title: 'Sentinel Ethos — Safety Ecosystem Pulse',
+  description: 'Precision safety monitoring dashboard — Ecosystem Intelligence',
   icons: {
     icon: [
       {
@@ -35,8 +33,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ru">
-      <body className="font-sans antialiased">
+    <html lang="en" className="light">
+      <head>
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+      </head>
+      <body className={`${inter.className} antialiased`}>
         {children}
         <Analytics />
       </body>

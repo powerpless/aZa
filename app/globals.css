@@ -4,93 +4,83 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(0.98 0 0);
-  --foreground: oklch(0.15 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.15 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.15 0 0);
-  --primary: oklch(0.45 0.15 160);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.95 0.005 285);
-  --secondary-foreground: oklch(0.2 0 0);
-  --muted: oklch(0.94 0.005 285);
-  --muted-foreground: oklch(0.45 0 0);
-  --accent: oklch(0.92 0.01 285);
-  --accent-foreground: oklch(0.15 0 0);
-  --destructive: oklch(0.55 0.2 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.88 0.01 285);
-  --input: oklch(0.92 0.005 285);
-  --ring: oklch(0.45 0.15 160);
-  --chart-1: oklch(0.5 0.15 160);
-  --chart-2: oklch(0.55 0.18 250);
-  --chart-3: oklch(0.65 0.15 80);
-  --chart-4: oklch(0.55 0.2 25);
-  --chart-5: oklch(0.55 0.15 300);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.97 0.005 285);
-  --sidebar-foreground: oklch(0.15 0 0);
-  --sidebar-primary: oklch(0.45 0.15 160);
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.92 0.005 285);
-  --sidebar-accent-foreground: oklch(0.15 0 0);
-  --sidebar-border: oklch(0.88 0.01 285);
-  --sidebar-ring: oklch(0.45 0.15 160);
-  
-  --success: oklch(0.55 0.18 145);
-  --success-foreground: oklch(0.98 0 0);
-  --warning: oklch(0.7 0.15 80);
-  --warning-foreground: oklch(0.15 0 0);
-  --danger: oklch(0.55 0.2 25);
-  --danger-foreground: oklch(0.98 0 0);
-}
+  /* Sentinel Ethos - "The Ethereal Observer" palette */
+  --background: #f7f9fb;
+  --foreground: #191c1e;
+  --card: #ffffff;
+  --card-foreground: #191c1e;
+  --popover: #ffffff;
+  --popover-foreground: #191c1e;
+  --primary: #002b73;
+  --primary-foreground: #ffffff;
+  --primary-container: #0040a1;
+  --secondary: #545e76;
+  --secondary-foreground: #ffffff;
+  --secondary-container: #d7e2ff;
+  --muted: #f2f4f6;
+  --muted-foreground: #434652;
+  --accent: #eceef0;
+  --accent-foreground: #191c1e;
+  --destructive: #ba1a1a;
+  --destructive-foreground: #ffffff;
+  --border: #c3c6d4;
+  --input: #e0e3e5;
+  --ring: #002b73;
 
-.dark {
-  --background: oklch(0.098 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.13 0.005 285);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.13 0.005 285);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.7 0.15 160);
-  --primary-foreground: oklch(0.1 0 0);
-  --secondary: oklch(0.2 0.005 285);
-  --secondary-foreground: oklch(0.9 0 0);
-  --muted: oklch(0.18 0.005 285);
-  --muted-foreground: oklch(0.6 0 0);
-  --accent: oklch(0.25 0.01 285);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.55 0.2 25);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.25 0.01 285);
-  --input: oklch(0.2 0.005 285);
-  --ring: oklch(0.7 0.15 160);
-  --chart-1: oklch(0.7 0.15 160);
-  --chart-2: oklch(0.65 0.18 250);
-  --chart-3: oklch(0.75 0.15 80);
-  --chart-4: oklch(0.6 0.2 25);
-  --chart-5: oklch(0.65 0.15 300);
-  --sidebar: oklch(0.12 0.005 285);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.7 0.15 160);
-  --sidebar-primary-foreground: oklch(0.1 0 0);
-  --sidebar-accent: oklch(0.2 0.005 285);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.25 0.01 285);
-  --sidebar-ring: oklch(0.7 0.15 160);
-  
-  --success: oklch(0.7 0.18 145);
-  --success-foreground: oklch(0.1 0 0);
-  --warning: oklch(0.75 0.15 80);
-  --warning-foreground: oklch(0.1 0 0);
-  --danger: oklch(0.55 0.2 25);
-  --danger-foreground: oklch(0.985 0 0);
+  /* Chart colors */
+  --chart-1: #002b73;
+  --chart-2: #85f8c4;
+  --chart-3: #ba1a1a;
+  --chart-4: #b2c5ff;
+  --chart-5: #0040a1;
+
+  /* Sentinel custom tokens */
+  --surface: #f7f9fb;
+  --surface-container-low: #f2f4f6;
+  --surface-container-lowest: #ffffff;
+  --surface-container: #eceef0;
+  --surface-container-high: #e6e8ea;
+  --surface-container-highest: #e0e3e5;
+  --on-surface: #191c1e;
+  --on-surface-variant: #434652;
+  --outline: #747784;
+  --outline-variant: #c3c6d4;
+  --error: #ba1a1a;
+  --error-container: #ffdad6;
+  --on-error-container: #93000a;
+  --tertiary: #003925;
+  --tertiary-container: #005237;
+  --tertiary-fixed: #85f8c4;
+  --on-tertiary-container: #55ca99;
+  --primary-fixed: #dae2ff;
+  --primary-fixed-dim: #b2c5ff;
+  --secondary-fixed: #d7e2ff;
+  --secondary-fixed-dim: #bbc6e2;
+  --on-primary-fixed: #001848;
+  --on-primary-fixed-variant: #0040a1;
+  --inverse-surface: #2d3133;
+
+  --radius: 0.375rem;
+  --sidebar: #f8fafc;
+  --sidebar-foreground: #191c1e;
+  --sidebar-primary: #002b73;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f2f4f6;
+  --sidebar-accent-foreground: #191c1e;
+  --sidebar-border: #c3c6d426;
+  --sidebar-ring: #002b73;
+
+  --success: #005237;
+  --success-foreground: #ffffff;
+  --warning: #795900;
+  --warning-foreground: #ffffff;
+  --danger: #ba1a1a;
+  --danger-foreground: #ffffff;
 }
 
 @theme inline {
-  --font-sans: 'Geist', 'Geist Fallback';
-  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'Inter', monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -121,10 +111,10 @@
   --color-warning-foreground: var(--warning-foreground);
   --color-danger: var(--danger);
   --color-danger-foreground: var(--danger-foreground);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 6px);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -137,9 +127,63 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border/15 outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-[#191c1e];
+    background: linear-gradient(135deg, #eef3fb 0%, #f0f4ff 30%, #f7f9fb 60%, #edf2fa 100%);
+    min-height: 100vh;
   }
+}
+
+/* Material Symbols */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Sentinel Ethos - Pie Charts */
+.pie-chart {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  position: relative;
+}
+.pie-risk {
+  background: conic-gradient(
+    #002b73 0% 45%,
+    #0040a1 45% 75%,
+    #b2c5ff 75% 100%
+  );
+}
+.pie-incident {
+  background: conic-gradient(
+    #ba1a1a 0% 15%,
+    #002b73 15% 60%,
+    #bbc6e2 60% 100%
+  );
+}
+.pie-chart::before {
+  content: "";
+  position: absolute;
+  inset: 35px;
+  background: white;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+/* Asymmetric grid for Sentinel layout */
+.asymmetric-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 2.5rem;
+}
+@media (max-width: 1024px) {
+  .asymmetric-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Ambient shadow for Sentinel Ethos */
+.sentinel-shadow {
+  box-shadow: 0 0 32px rgba(0, 64, 161, 0.04);
 }

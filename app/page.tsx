@@ -11,29 +11,20 @@ import {
   RiskAssessmentSection,
   IncidentsSection,
   ActionsSection,
-  PPESection,
-  UsersSection,
-  CarOrderSection,
 } from '@/components/dashboard/module-sections'
-import { Separator } from '@/components/ui/separator'
-import { cn } from '@/lib/utils'
 
 export default function DashboardPage() {
   const [activeSection, setActiveSection] = useState('overview')
-  const [isFullscreen, setIsFullscreen] = useState(false)
 
   const handleFullscreen = useCallback(() => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen()
-      setIsFullscreen(true)
     } else {
       document.exitFullscreen()
-      setIsFullscreen(false)
     }
   }, [])
 
   const handleRefresh = useCallback(() => {
-    // In a real app, this would trigger data refetch
     window.location.reload()
   }, [])
 
@@ -53,114 +44,40 @@ export default function DashboardPage() {
         return <IncidentsSection />
       case 'actions':
         return <ActionsSection />
-      case 'ppe':
-        return <PPESection />
-      case 'users':
-        return <UsersSection />
-      case 'cars':
-        return <CarOrderSection />
       default:
         return <OverviewSection />
     }
   }
 
-  // Presentation mode - show all sections
-  if (activeSection === 'overview') {
-    return (
-      <div className="min-h-screen bg-background">
-        {/* Desktop Navigation */}
-        <div className="hidden lg:block">
-          <DashboardNav activeSection={activeSection} onSectionChange={setActiveSection} />
-        </div>
-
-        {/* Main Content */}
-        <div className="lg:pl-56">
-          <DashboardHeader 
-            onRefresh={handleRefresh}
-            onFullscreen={handleFullscreen}
-          />
-          
-          {/* Mobile Navigation */}
-          <DashboardMobileNav activeSection={activeSection} onSectionChange={setActiveSection} />
-
-          <main className="p-4 lg:p-6 space-y-12">
-            <OverviewSection />
-            
-            <Separator className="my-8" />
-            
-            <UsersSection />
-            
-            <Separator className="my-8" />
-            
-            <ProductionControlSection />
-            
-            <Separator className="my-8" />
-            
-            <PABSection />
-            
-            <Separator className="my-8" />
-            
-            <HazardRegistrationSection />
-            
-            <Separator className="my-8" />
-            
-            <RiskAssessmentSection />
-            
-            <Separator className="my-8" />
-            
-            <IncidentsSection />
-            
-            <Separator className="my-8" />
-            
-            <ActionsSection />
-
-            <Separator className="my-8" />
-            
-            <PPESection />
-
-            <Separator className="my-8" />
-            
-            <CarOrderSection />
-
-            {/* Footer */}
-            <footer className="pt-8 pb-4 text-center text-sm text-muted-foreground">
-              <p>Витрина активностей — Мониторинг всех модулей</p>
-              <p className="mt-1">
-                Данные обновляются в реальном времени • {new Date().toLocaleDateString('ru-RU', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </p>
-            </footer>
-          </main>
-        </div>
-      </div>
-    )
-  }
-
-  // Individual section view
   return (
-    <div className="min-h-screen bg-background">
-      {/* Desktop Navigation */}
-      <div className="hidden lg:block">
+    <div className="min-h-screen bg-[#f7f9fb]">
+      {/* Desktop Sidebar Navigation */}
+      <div className="hidden md:block">
         <DashboardNav activeSection={activeSection} onSectionChange={setActiveSection} />
       </div>
 
-      {/* Main Content */}
-      <div className="lg:pl-56">
-        <DashboardHeader 
+      {/* Main Content Area */}
+      <div className="ml-0 md:ml-64">
+        <DashboardHeader
           onRefresh={handleRefresh}
           onFullscreen={handleFullscreen}
         />
-        
-        {/* Mobile Navigation */}
-        <DashboardMobileNav activeSection={activeSection} onSectionChange={setActiveSection} />
 
-        <main className="p-4 lg:p-6">
+        <main className="p-8 min-h-screen">
           {renderSection()}
         </main>
       </div>
+
+      {/* Mobile Bottom Navigation */}
+      <DashboardMobileNav activeSection={activeSection} onSectionChange={setActiveSection} />
+
+      {/* FAB Button */}
+      <button
+        className="fixed bottom-20 right-8 md:bottom-8 md:right-8 h-14 w-14 rounded-full bg-gradient-to-br from-[#002b73] to-[#0040a1] text-white flex items-center justify-center shadow-xl hover:scale-105 transition-transform z-40"
+        aria-label="Create new"
+      >
+        <span className="material-symbols-outlined text-2xl">add</span>
+      </button>
     </div>
   )
 }

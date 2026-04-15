@@ -1,205 +1,253 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Progress } from '@/components/ui/progress'
-import { cn } from '@/lib/utils'
-import { 
-  ClipboardCheck, Eye, AlertTriangle, Shield, AlertOctagon, CheckSquare,
-  TrendingUp, TrendingDown, Minus, Users, AlertCircle, Activity, HardHat, Car
-} from 'lucide-react'
 import { overviewData } from '@/lib/dashboard-data'
 
-const iconMap = {
-  ClipboardCheck,
-  Eye,
-  AlertTriangle,
-  Shield,
-  AlertOctagon,
-  CheckSquare,
-  HardHat,
-  Users,
-  Car,
-}
-
 export function OverviewSection() {
-  const [lastUpdated, setLastUpdated] = useState<string | null>(null)
+  // Aggregate data for display
+  const totalEvents = overviewData.modules.reduce((sum, m) => sum + m.value, 0)
+  const avgEngagement = (
+    overviewData.modules.reduce((sum, m) => sum + m.engagement, 0) / overviewData.modules.length
+  ).toFixed(1)
 
-  useEffect(() => {
-    setLastUpdated(new Date().toLocaleString('ru-RU', { 
-      day: 'numeric', 
-      month: 'short', 
-      hour: '2-digit', 
-      minute: '2-digit' 
-    }))
-  }, [])
+  // Simulated weekly engagement data for bar chart
+  const weeklyData = [
+    { day: 'MON', value: 40 },
+    { day: 'TUE', value: 55 },
+    { day: 'WED', value: 35 },
+    { day: 'THU', value: 85 },
+    { day: 'FRI', value: 65 },
+    { day: 'SAT', value: 95 },
+  ]
+
+  const barColors = [
+    'bg-[#e0e3e5]',
+    'bg-[#002b73]/40',
+    'bg-[#002b73]/20',
+    'bg-[#002b73]',
+    'bg-[#002b73]/60',
+    'bg-[#001848]',
+  ]
+
   return (
-    <section className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+    <>
+      {/* Hero Summary Section */}
+      <div className="mb-10 flex flex-col md:flex-row justify-between items-end gap-6">
         <div>
-          <h1 className="text-2xl lg:text-3xl font-bold tracking-tight">
-            Витрина активностей
-          </h1>
-          <p className="text-muted-foreground mt-1">
-            Единый мониторинг всех модулей промышленной безопасности и охраны труда
-          </p>
+          <p className="text-xs font-bold uppercase tracking-widest text-[#434652] mb-2">Operational Sentinel</p>
+          <h2 className="text-4xl font-bold text-[#191c1e] tracking-tight">Ecosystem Intelligence</h2>
         </div>
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 text-sm">
-            <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
-            <span className="text-muted-foreground">Онлайн</span>
+        <div className="flex gap-8 items-center bg-white p-4 px-6 rounded-xl shadow-sm border border-[#c3c6d4]/10">
+          <div className="text-center">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-[#434652]">Global Risk</p>
+            <p className="text-2xl font-bold text-[#002b73] tracking-tighter">0.12%</p>
           </div>
-          {lastUpdated && (
-            <Badge variant="secondary" className="text-xs">
-              Обновлено: {lastUpdated}
-            </Badge>
-          )}
+          <div className="h-8 w-px bg-[#c3c6d4]/30"></div>
+          <div className="text-center">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-[#434652]">Active Nodes</p>
+            <p className="text-2xl font-bold text-[#002b73] tracking-tighter">{totalEvents.toLocaleString()}</p>
+          </div>
+          <button className="bg-gradient-to-br from-[#002b73] to-[#0040a1] text-white px-5 py-2 rounded-xl text-xs font-bold uppercase tracking-widest shadow-md hover:shadow-lg transition-shadow">
+            Export Report
+          </button>
         </div>
       </div>
 
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="bg-success/5 border-success/20">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-              <Users className="h-4 w-4 text-success" />
-              Общая активность
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-bold text-success">
-                {overviewData.totalEngagement.value}%
-              </span>
-              <span className={cn(
-                'flex items-center text-sm',
-                overviewData.totalEngagement.trend === 'up' ? 'text-success' : 'text-danger'
-              )}>
-                {overviewData.totalEngagement.trend === 'up' ? (
-                  <TrendingUp className="h-4 w-4" />
-                ) : (
-                  <TrendingDown className="h-4 w-4" />
-                )}
-                {overviewData.totalEngagement.changePercent > 0 ? '+' : ''}
-                {overviewData.totalEngagement.changePercent.toFixed(1)}%
-              </span>
+      {/* Metric Distribution Pie Charts */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+        {/* Risk Distribution Chart */}
+        <div className="bg-white p-8 rounded-xl shadow-sm border border-[#c3c6d4]/5">
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-sm font-bold text-[#191c1e] uppercase tracking-widest">Risk Distribution</h3>
+            <span className="material-symbols-outlined text-slate-400">info</span>
+          </div>
+          <div className="flex flex-col lg:flex-row items-center gap-10">
+            <div className="pie-chart pie-risk"></div>
+            <div className="flex-1 space-y-4 w-full">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="h-3 w-3 rounded-sm bg-[#002b73]"></div>
+                  <span className="text-xs font-bold text-[#434652] uppercase tracking-wider">Critical</span>
+                </div>
+                <span className="text-xs font-black text-[#002b73]">45%</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="h-3 w-3 rounded-sm bg-[#0040a1]"></div>
+                  <span className="text-xs font-bold text-[#434652] uppercase tracking-wider">Moderate</span>
+                </div>
+                <span className="text-xs font-black text-[#002b73]">30%</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="h-3 w-3 rounded-sm bg-[#b2c5ff]"></div>
+                  <span className="text-xs font-bold text-[#434652] uppercase tracking-wider">Low Risk</span>
+                </div>
+                <span className="text-xs font-black text-[#002b73]">25%</span>
+              </div>
             </div>
-            <Progress value={overviewData.totalEngagement.value} className="h-1.5 mt-2" />
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card className="bg-primary/5 border-primary/20">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-              <Activity className="h-4 w-4 text-primary" />
-              Вовлеченность
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-primary">
-              {overviewData.modules.reduce((sum, m) => sum + m.value, 0).toLocaleString('ru-RU')}
+        {/* Incident Breakdown Chart */}
+        <div className="bg-white p-8 rounded-xl shadow-sm border border-[#c3c6d4]/5">
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-sm font-bold text-[#191c1e] uppercase tracking-widest">Incident Breakdown</h3>
+            <span className="material-symbols-outlined text-slate-400">filter_list</span>
+          </div>
+          <div className="flex flex-col lg:flex-row items-center gap-10">
+            <div className="pie-chart pie-incident"></div>
+            <div className="flex-1 space-y-4 w-full">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="h-3 w-3 rounded-sm bg-[#ba1a1a]"></div>
+                  <span className="text-xs font-bold text-[#434652] uppercase tracking-wider">Unsafe Acts</span>
+                </div>
+                <span className="text-xs font-black text-[#002b73]">15%</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="h-3 w-3 rounded-sm bg-[#002b73]"></div>
+                  <span className="text-xs font-bold text-[#434652] uppercase tracking-wider">Near Misses</span>
+                </div>
+                <span className="text-xs font-black text-[#002b73]">45%</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="h-3 w-3 rounded-sm bg-[#bbc6e2]"></div>
+                  <span className="text-xs font-bold text-[#434652] uppercase tracking-wider">Resolved</span>
+                </div>
+                <span className="text-xs font-black text-[#002b73]">40%</span>
+              </div>
             </div>
-            <p className="text-xs text-muted-foreground mt-1">событий за период</p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-rose-50 border-rose-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-              <Shield className="h-4 w-4 text-rose-700" />
-              Зоны риска
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-rose-800">
-              {overviewData.modules.reduce((sum, m) => sum + m.zeroDepartments, 0)}
-            </div>
-            <p className="text-xs text-muted-foreground mt-1">подразделений с нулевой активностью</p>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
-      {/* Module Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {overviewData.modules.filter(m => m.id !== 'risks').map((module) => {
-          const Icon = iconMap[module.icon as keyof typeof iconMap]
-          const isPositive = module.trend.trend === 'up'
-          const isNegative = module.trend.trend === 'down'
-          // Для происшествий снижение — это хорошо
-          const isGood = module.id === 'incidents' ? isNegative : isPositive
+      {/* Asymmetric Analytics Section */}
+      <div className="asymmetric-grid mb-10">
+        {/* Engagement Dynamics Chart */}
+        <div className="bg-white rounded-xl shadow-sm border border-[#c3c6d4]/5 p-8 flex flex-col">
+          <div className="mb-8">
+            <h3 className="text-lg font-bold text-[#002b73] tracking-tight">Engagement Dynamics</h3>
+            <p className="text-xs text-[#434652] font-medium">Weekly trend of safety participation</p>
+          </div>
+          <div className="flex-1 flex flex-col justify-between">
+            <div className="flex items-end gap-2" style={{ height: '160px' }}>
+              {weeklyData.map((item, i) => (
+                <div key={item.day} className="flex-1 relative group" style={{ height: '100%', display: 'flex', alignItems: 'flex-end' }}>
+                  <div
+                    className={`${barColors[i]} rounded-t-sm transition-all duration-300 w-full`}
+                    style={{ height: `${item.value}%` }}
+                  ></div>
+                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-[10px] font-bold text-[#002b73]">
+                    {item.value}%
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-between mt-4 text-[10px] font-bold text-[#434652] tracking-widest">
+              {weeklyData.map((item) => (
+                <span key={item.day}>{item.day}</span>
+              ))}
+            </div>
+          </div>
+          <div className="mt-8 pt-6 border-t border-[#c3c6d4]/10">
+            <div className="flex justify-between items-center">
+              <span className="text-xs font-bold text-[#434652] uppercase tracking-widest">Avg. Engagement</span>
+              <span className="text-lg font-bold text-[#002b73]">{avgEngagement}%</span>
+            </div>
+          </div>
+        </div>
 
-          return (
-            <Card key={module.id} className="relative overflow-hidden group hover:border-primary/50 transition-colors">
-              <CardHeader className="pb-2">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className={cn(
-                      'flex items-center justify-center w-10 h-10 rounded-lg',
-                      module.id === 'production' && 'bg-chart-1/20',
-                      module.id === 'pab' && 'bg-chart-2/20',
-                      module.id === 'hazards' && 'bg-chart-3/20',
-                      module.id === 'risks' && 'bg-chart-5/20',
-                      module.id === 'incidents' && 'bg-chart-4/20',
-                      module.id === 'actions' && 'bg-primary/20',
-                      module.id === 'ppe' && 'bg-chart-3/20',
-                      module.id === 'users' && 'bg-chart-2/20',
-                      module.id === 'cars' && 'bg-chart-5/20',
-                    )}>
-                      {Icon && <Icon className={cn(
-                        'h-5 w-5',
-                        module.id === 'production' && 'text-chart-1',
-                        module.id === 'pab' && 'text-chart-2',
-                        module.id === 'hazards' && 'text-chart-3',
-                        module.id === 'risks' && 'text-chart-5',
-                        module.id === 'incidents' && 'text-chart-4',
-                        module.id === 'actions' && 'text-primary',
-                        module.id === 'ppe' && 'text-chart-3',
-                        module.id === 'users' && 'text-chart-2',
-                        module.id === 'cars' && 'text-chart-5',
-                      )} />}
-                    </div>
-                    <div>
-                      <CardTitle className="text-sm font-medium">{module.name}</CardTitle>
-                    </div>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="flex items-baseline justify-between">
-                    <div>
-                      <span className="text-2xl font-bold tabular-nums">
-                        {module.value.toLocaleString('ru-RU')}{(module as { isPercent?: boolean }).isPercent ? '%' : ''}
-                      </span>
-                      {module.id === 'production' && (
-                        <p className="text-xs text-muted-foreground mt-0.5">записей создано</p>
-                      )}
-                    </div>
-                    <span className={cn(
-                      'flex items-center gap-1 text-sm',
-                      isGood ? 'text-success' : !isPositive && !isNegative ? 'text-muted-foreground' : 'text-danger'
-                    )}>
-                      {isPositive ? <TrendingUp className="h-4 w-4" /> : 
-                       isNegative ? <TrendingDown className="h-4 w-4" /> : 
-                       <Minus className="h-4 w-4" />}
-                      {module.trend.changePercent > 0 ? '+' : ''}{module.trend.changePercent.toFixed(1)}%
-                    </span>
-                  </div>
-                  <div className="space-y-1">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-muted-foreground">Вовлеченность</span>
-                      <span className="font-medium">{module.engagement}%</span>
-                    </div>
-                    <Progress value={module.engagement} className="h-1.5" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          )
-        })}
+        {/* Module Quick Stats Bento Stack */}
+        <div className="space-y-6">
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-[#c3c6d4]/5">
+            <h3 className="text-sm font-bold text-[#191c1e] uppercase tracking-widest mb-1">PC Activity</h3>
+            <p className="text-3xl font-bold text-[#002b73] tracking-tighter">
+              42 <span className="text-xs text-slate-400 font-normal">Tasks/hr</span>
+            </p>
+            <div className="w-full bg-[#e0e3e5] h-1 mt-3 rounded-full overflow-hidden">
+              <div className="bg-[#002b73] h-full w-[75%]"></div>
+            </div>
+          </div>
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-[#c3c6d4]/5">
+            <h3 className="text-sm font-bold text-[#191c1e] uppercase tracking-widest mb-1">Hazards Identified</h3>
+            <p className="text-3xl font-bold text-[#ba1a1a] tracking-tighter">
+              08 <span className="text-xs text-slate-400 font-normal">Open</span>
+            </p>
+            <div className="w-full bg-[#e0e3e5] h-1 mt-3 rounded-full overflow-hidden">
+              <div className="bg-[#ba1a1a] h-full w-[20%]"></div>
+            </div>
+          </div>
+        </div>
       </div>
-    </section>
+
+      {/* Silent Zones and Leaderboard */}
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
+        {/* Silent Zones */}
+        <div className="xl:col-span-2 bg-white rounded-xl shadow-sm border border-[#c3c6d4]/5 p-8">
+          <div className="flex items-center gap-3 mb-8">
+            <span className="material-symbols-outlined text-slate-300">bedtime</span>
+            <h3 className="text-lg font-bold text-[#002b73] tracking-tight">Silent Zones</h3>
+          </div>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between p-4 bg-slate-50/50 rounded-lg border border-slate-100 cursor-pointer hover:bg-slate-100/50 transition-colors">
+              <div className="flex items-center gap-4">
+                <div className="h-10 w-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+                  <span className="material-symbols-outlined">location_on</span>
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-[#191c1e]">Warehouse Sector C</p>
+                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">No activity detected (48h)</p>
+                </div>
+              </div>
+              <span className="material-symbols-outlined text-slate-300">chevron_right</span>
+            </div>
+            <div className="flex items-center justify-between p-4 bg-slate-50/50 rounded-lg border border-slate-100 cursor-pointer hover:bg-slate-100/50 transition-colors">
+              <div className="flex items-center gap-4">
+                <div className="h-10 w-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+                  <span className="material-symbols-outlined">location_on</span>
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-[#191c1e]">External Loading Dock</p>
+                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">No activity detected (12h)</p>
+                </div>
+              </div>
+              <span className="material-symbols-outlined text-slate-300">chevron_right</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Engagement Leaderboard */}
+        <div className="xl:col-span-2 bg-white rounded-xl shadow-sm border border-[#c3c6d4]/5 p-8">
+          <div className="flex justify-between items-center mb-8">
+            <h3 className="text-lg font-bold text-[#002b73] tracking-tight">Engagement Leaderboard</h3>
+            <span className="text-[10px] font-bold text-[#434652] uppercase tracking-widest">TOP NODES</span>
+          </div>
+          <div className="space-y-4">
+            {[
+              { rank: '01', icon: 'factory', name: 'Finishing Plant A', compliance: '99.8%', points: '1,420' },
+              { rank: '02', icon: 'conveyor_belt', name: 'Assembly Line 04', compliance: '96.4%', points: '1,280' },
+              { rank: '03', icon: 'inventory', name: 'Logistics Hub West', compliance: '94.1%', points: '1,150' },
+            ].map((entry) => (
+              <div key={entry.rank} className="flex items-center gap-4 group">
+                <span className="text-xl font-black text-slate-200 group-hover:text-[#002b73] transition-colors">{entry.rank}</span>
+                <div className="h-10 w-10 rounded-lg bg-[#d7e2ff] flex items-center justify-center">
+                  <span className="material-symbols-outlined text-[#5a647c]">{entry.icon}</span>
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-bold text-[#191c1e]">{entry.name}</p>
+                  <p className="text-[10px] text-[#434652] font-bold uppercase tracking-widest">{entry.compliance} Compliance</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-xs font-bold text-[#002b73]">{entry.points}</p>
+                  <p className="text-[10px] text-slate-400 uppercase font-bold tracking-tighter">Points</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
   )
 }
